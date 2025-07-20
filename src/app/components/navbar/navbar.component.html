@@ -1,4 +1,9 @@
 <nav class="navbar">
   <span class="navbar-title">People Link</span>
+  <div class="navbar-links">
+    <a class="navbar-link" [routerLink]="['/dashboard/feed']" routerLinkActive="active">Feed</a>
+<a class="navbar-link" [routerLink]="['/dashboard/search']" routerLinkActive="active">Search</a>
+<a class="navbar-link" [routerLink]="['/dashboard/profile']" routerLinkActive="active">Profile</a>
+  </div>
   <button class="navbar-logout" (click)="logout()">Logout</button>
 </nav>
