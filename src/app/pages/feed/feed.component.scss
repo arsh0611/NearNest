@@ -1,0 +1,36 @@
+$host-left-corner-color: #cedbec;
+$host-right-corner-color: #ebf0f3;
+
+$left-corner-color: #b0c4df;
+$middle-corner-color: #cfdce5;
+$right-corner-color: #b0c4df;
+
+.dashboard-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 24px;
+  background: linear-gradient(135deg, $left-corner-color 0%, $middle-corner-color 50%, $right-corner-color 100%);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.dashboard-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.6rem;
+}
+
+.dashboard-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard-container li {
+  padding: 12px 0;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 1.1rem;
+}
+
+.dashboard-container li:last-child {
+  border-bottom: none;
+}
