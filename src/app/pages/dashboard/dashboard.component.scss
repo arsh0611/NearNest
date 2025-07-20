@@ -1,8 +1,9 @@
-$host-left-corner-color: #b3c6df;
-$host-right-corner-color: #dbe2e6;
+$host-left-corner-color: #cedbec;
+$host-right-corner-color: #ebf0f3;
 
 $left-corner-color: #b0c4df;
-$right-corner-color: #dce7ef;
+$middle-corner-color: #cfdce5;
+$right-corner-color: #b0c4df;
 
 :host {
   display: block;
@@ -22,7 +23,7 @@ $right-corner-color: #dce7ef;
   max-width: 500px;
   margin: 40px auto;
   padding: 24px;
-  background: linear-gradient(135deg, $left-corner-color 0%, $right-corner-color 100%);
+  background: linear-gradient(135deg, $left-corner-color 0%, $middle-corner-color 50%, $right-corner-color 100%);
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
