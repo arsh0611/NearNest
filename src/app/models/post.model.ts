@@ -9,6 +9,7 @@ export interface Post {
   likes: number;
   comments: Comment[];
   isLiked: boolean;
+  isDisliked?: boolean;
 }
 
 export interface Comment {
