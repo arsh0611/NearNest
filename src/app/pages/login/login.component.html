@@ -1,12 +1,46 @@
-<div class="login-container1">
-    <div class="login-container2">
-        <h2>Login</h2>
-        <form (ngSubmit)="onLogin()">
-            <input [(ngModel)]="username" name="username" placeholder="Username" required />
-            <input [(ngModel)]="password" name="password" type="password" placeholder="Password" required />
-            <button type="submit">Login</button>
+<div class="login-container">
+    <div class="login-form">
+        <h2>Welcome Back</h2>
+        <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+            <div class="form-group">
+                <input 
+                    [(ngModel)]="username" 
+                    name="username" 
+                    placeholder="Username" 
+                    required 
+                    #usernameField="ngModel"
+                />
+                <div class="error-message" *ngIf="usernameField.invalid && usernameField.touched">
+                    Username is required
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <input 
+                    [(ngModel)]="password" 
+                    name="password" 
+                    type="password" 
+                    placeholder="Password" 
+                    required
+                    #passwordField="ngModel"
+                />
+                <div class="error-message" *ngIf="passwordField.invalid && passwordField.touched">
+                    Password is required
+                </div>
+            </div>
+            
+            <button type="submit" [disabled]="loginForm.invalid">
+                Login
+            </button>
         </form>
-        <p *ngIf="loginError" class="error">Invalid credentials</p>
+        
+        <div class="signup-link">
+            Don't have an account? <a routerLink="/signup">Sign up here</a>
+        </div>
+        
+        <div class="message error" *ngIf="loginError">
+            Invalid username or password
+        </div>
     </div>
 </div>
 

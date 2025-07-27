@@ -1,0 +1,78 @@
+<div class="signup-container">
+    <div class="signup-form">
+        <h2>Create Account</h2>
+        <form (ngSubmit)="onSignup()" #signupForm="ngForm">
+            <div class="form-group">
+                <input 
+                    [(ngModel)]="username" 
+                    name="username" 
+                    placeholder="Username" 
+                    required 
+                    #usernameField="ngModel"
+                />
+                <div class="error-message" *ngIf="usernameField.invalid && usernameField.touched">
+                    Username is required
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <input 
+                    [(ngModel)]="email" 
+                    name="email" 
+                    type="email" 
+                    placeholder="Email" 
+                    required 
+                    #emailField="ngModel"
+                />
+                <div class="error-message" *ngIf="emailField.invalid && emailField.touched">
+                    Please enter a valid email
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <input 
+                    [(ngModel)]="password" 
+                    name="password" 
+                    type="password" 
+                    placeholder="Password" 
+                    required
+                    minlength="6"
+                    #passwordField="ngModel"
+                />
+                <div class="error-message" *ngIf="passwordField.invalid && passwordField.touched">
+                    Password must be at least 6 characters
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <input 
+                    [(ngModel)]="confirmPassword" 
+                    name="confirmPassword" 
+                    type="password" 
+                    placeholder="Confirm Password" 
+                    required
+                    #confirmPasswordField="ngModel"
+                />
+                <div class="error-message" *ngIf="confirmPasswordField.invalid && confirmPasswordField.touched">
+                    Please confirm your password
+                </div>
+            </div>
+            
+            <button type="submit" [disabled]="signupForm.invalid">
+                Create Account
+            </button>
+        </form>
+        
+        <div class="login-link">
+            Already have an account? <a routerLink="/login">Login here</a>
+        </div>
+        
+        <div class="message error" *ngIf="signupError">
+            {{ signupError }}
+        </div>
+        
+        <div class="message success" *ngIf="signupSuccess">
+            Account created successfully! Redirecting to login...
+        </div>
+    </div>
+</div> 
