@@ -54,8 +54,8 @@ export class LoginComponent {
 
   constructor(private auth: AuthService, private router: Router) {}
 
-  onLogin() {
-    const success = this.auth.login(this.username, this.password);
+  async onLogin() {
+    const success = await this.auth.login(this.username, this.password);
     if (success) {
       this.router.navigate(['/dashboard']);
     } else {

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
        // Define the structure of a user
        interface User {
@@ -10,10 +11,13 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
   // Store users in localStorage (in a real app, this would be a database)
   private users: User[] = [];
 
-           constructor() {
+           constructor(
+            private http: HttpClient
+           ) {
            // Load existing users from localStorage
            const savedUsers = localStorage.getItem('users');
            if (savedUsers) {
@@ -50,8 +54,35 @@ export class AuthService {
 
            return true; // Signup successful
          }
+  //create a login2 function that calls api http://auth/login and accepts username and password
+    
+  async login(username: string, password: string): Promise<boolean> {
+    const params = new HttpParams()
+      .set('username', username)
+      .set('password', password);
 
-  login(username: string, password: string): boolean {
+    try {
+      const response: string|undefined = await this.http.post(
+        'http://localhost:8080/api/login',
+        null,
+        { params, responseType: 'text' }
+      ).toPromise();
+
+      if (response === 'Login Success') {
+        localStorage.setItem('auth', 'true');
+        localStorage.setItem('currentUser', username);
+        return true;
+      }
+      return false;
+    } catch (error: any) {
+      console.error('Login failed:', error);
+      return false;
+    }
+  }
+
+
+
+  login2(username: string, password: string): boolean {
     // Find user by username
     const user = this.users.find(u => u.username === username);
     
@@ -62,7 +93,7 @@ export class AuthService {
     }
     return false;
   }
-
+//create a logout function
   logout() {
     localStorage.removeItem('auth');
     localStorage.removeItem('currentUser');
