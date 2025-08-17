@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
        // Define the structure of a user
        interface User {
@@ -30,56 +31,84 @@ export class AuthService {
              });
            }
          }
+          private base = 'http://localhost:8081/api/auth';
 
-           signup(username: string, email: string, password: string): boolean {
-           // Check if username already exists
-           const existingUser = this.users.find(user => user.username === username);
-           if (existingUser) {
-             return false; // Username already exists
-           }
 
-           // Create new user
-           const newUser: User = {
-             username,
-             email,
-             password, // In a real app, you'd hash this password!
-             memberSince: new Date() // Add signup date
-           };
+          signup(username: string, email: string, password: string) {
+            return this.http.post<{success: boolean, message: string}>(`${this.base}/signup`, {
+              username, email, password
+            });
+          }
 
-           // Add to users array
-           this.users.push(newUser);
+        //    signup2(username: string, email: string, password: string): boolean {
+        //    // Check if username already exists
+        //    const existingUser = this.users.find(user => user.username === username);
+        //    if (existingUser) {
+        //      return false; // Username already exists
+        //    }
 
-           // Save to localStorage
-           localStorage.setItem('users', JSON.stringify(this.users));
+        //    // Create new user
+        //    const newUser: User = {
+        //      username,
+        //      email,
+        //      password, // In a real app, you'd hash this password!
+        //      memberSince: new Date() // Add signup date
+        //    };
 
-           return true; // Signup successful
-         }
+        //    // Add to users array
+        //    this.users.push(newUser);
+
+        //    // Save to localStorage
+        //    localStorage.setItem('users', JSON.stringify(this.users));
+
+        //    return true; // Signup successful
+        //  }
   //create a login2 function that calls api http://auth/login and accepts username and password
     
+  // async login(username: string, password: string): Promise<boolean> {
+  //   const params = new HttpParams()
+  //     .set('username', username)
+  //     .set('password', password);
+
+  //   try {
+  //     const response: string|undefined = await this.http.post(
+  //       'http://localhost:8080/api/login',
+  //       null,
+  //       { params, responseType: 'text' }
+  //     ).toPromise();
+
+  //     if (response === 'Login Success') {
+  //       localStorage.setItem('auth', 'true');
+  //       localStorage.setItem('currentUser', username);
+  //       return true;
+  //     }
+  //     return false;
+  //   } catch (error: any) {
+  //     console.error('Login failed:', error);
+  //     return false;
+  //   }
+  // }
+
   async login(username: string, password: string): Promise<boolean> {
-    const params = new HttpParams()
-      .set('username', username)
-      .set('password', password);
+  try {
+    const response = await firstValueFrom(
+      this.http.post<{ success: boolean; message: string }>(
+        'http://localhost:8081/api/auth/validate',
+        { username, password } // send JSON body
+      )
+    );
 
-    try {
-      const response: string|undefined = await this.http.post(
-        'http://localhost:8080/api/login',
-        null,
-        { params, responseType: 'text' }
-      ).toPromise();
-
-      if (response === 'Login Success') {
-        localStorage.setItem('auth', 'true');
-        localStorage.setItem('currentUser', username);
-        return true;
-      }
-      return false;
-    } catch (error: any) {
-      console.error('Login failed:', error);
-      return false;
+    if (response.success) {
+      localStorage.setItem('auth', 'true');
+      localStorage.setItem('currentUser', username);
+      return true;
     }
+    return false;
+  } catch (error: any) {
+    console.error('Login failed:', error);
+    return false;
   }
-
+}
 
 
   login2(username: string, password: string): boolean {

@@ -84,15 +84,23 @@ export class SignupComponent {
     }
     
     // Try to create account
-    const success = this.auth.signup(this.username, this.email, this.password);
-    if (success) {
-      this.signupSuccess = true;
-      // Redirect to login after 2 seconds
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 2000);
-    } else {
-      this.signupError = 'Username or email already exists';
+    this.auth.signup(this.username, this.email, this.password).subscribe({
+    next: (res) => {
+      if (res.success) {
+        this.signupSuccess = true;
+
+        // Redirect to login after 2 seconds
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+      } else {
+        this.signupError = res.message || 'Username or email already exists';
+      }
+    },
+    error: (err) => {
+      console.error('Signup failed', err);
+      this.signupError = 'Something went wrong. Please try again.';
     }
+    });
   }
 } 
